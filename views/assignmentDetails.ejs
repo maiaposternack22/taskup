@@ -1,0 +1,53 @@
+<%- include('partials/header', {title:"Assignment Details", allAss: allAss}) -%>
+
+<p>name - <%=assignment.name%></p>
+<p>subject - <%=assignment.subject%></p>
+<p>desc - <%=assignment.desc%></p>
+<p>due - <%=assignment.due%></p>
+
+<% for (let index in tasks) { %>
+  <p> task: </p>
+  <p> task descripton - <%= tasks[index]["desc"]%> </p>
+  <p> task due - <%= tasks[index]["due"]%> </p>
+  <p> task done? - <%= tasks[index]["done"]%> </p>
+  <% if (tasks[index]["done"] == false){ %>
+
+    <form action="/doneFromPage" method="POST">
+      <% let nam = tasks[index]["pin"]+":"+assignment.id %>
+    <input type="submit" name =<%=nam%> value="done"><br>
+    </form>
+        <% } %>
+
+
+
+<%}%>
+
+<form action="/deleted" method="GET">
+  <input type="submit" id = "delete" name = <%=assignment.id%> value="delete assignment" >
+</form>
+
+<form action="/edit" method="GET">
+  <input type="submit" id = "edit" name = <%=assignment.id%> value="edit assignment/add tasks" >
+</form>
+
+
+<script>
+  document.getElementById("edit").onclick = function() {edit()};
+  document.getElementById("delete").onclick = function() {del()};
+
+  function edit(){
+    console.log("edit")
+
+  }
+
+  function del(){
+    console.log("del")
+
+  }
+
+  </script>
+
+
+
+
+<%- include('partials/footer') -%>
