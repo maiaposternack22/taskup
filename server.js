@@ -138,20 +138,40 @@ app.post('/doneFromPage', function(request, response) {
 
 app.get("/deleted", function(request, response) {
   let assignments = JSON.parse(fs.readFileSync('data/assignments.json'));
+  let tasks = JSON.parse(fs.readFileSync('data/tasks.json'));
+
+  if (Object.keys(request.query).length > 0){
 
   for (let i in request.query) {
+    for(let taskPin of assignments[i]["tasks"]){
+      delete tasks[taskPin];
+
+    }
     delete assignments[i];
     console.log(i)
     console.log(assignments)
     console.log(assignments[i])
-  }
+
+}
   fs.writeFileSync('data/assignments.json', JSON.stringify(assignments));
+  fs.writeFileSync('data/tasks.json', JSON.stringify(tasks));
+
 
   response.status(200);
   response.setHeader('Content-Type', 'text/html')
   response.render("deleted", {
     allAss: JSON.parse(fs.readFileSync('data/assignments.json'))
   });
+
+}else{
+  response.status(400);
+  response.setHeader('Content-Type', 'text/html')
+  response.render("error", {
+    allAss: JSON.parse(fs.readFileSync('data/assignments.json')),
+    "errorCode": "400"
+  });
+}
+
 
 
 
@@ -162,11 +182,11 @@ app.get("/edit", function(request, response) {
   let tasks = JSON.parse(fs.readFileSync('data/tasks.json'));
   let myTasks = {}
 
+  if (Object.keys(request.query).length > 0){
   let myAss;
   for (let pin in request.query) {
     myAss = assignments[pin]
   }
-
   if (myAss["tasks"]) {
     for (let taskPin of myAss["tasks"]) { // gets pin of all tasks in myAss
       myTasks[taskPin] = tasks[taskPin] // copy over to myTasks
@@ -179,6 +199,16 @@ app.get("/edit", function(request, response) {
     tasks: myTasks,
     allAss: JSON.parse(fs.readFileSync('data/assignments.json'))
   });
+}// if query length >0
+else{
+
+  response.status(400);
+  response.setHeader('Content-Type', 'text/html')
+  response.render("error", {
+    allAss: JSON.parse(fs.readFileSync('data/assignments.json')),
+    "errorCode": "400"
+  });
+}
 
 
 

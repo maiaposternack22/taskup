@@ -1,6 +1,8 @@
 <%- include('partials/header', {title:"New Assignment", allAss: allAss}) -%>
 
-<h2>Add a new assignment: </h2>
+<h1>add a new assignment: </h1>
+
+<div id="allStuff" >
 
 <form action="/assignmentCreate" method="POST">
   <label for="name">Name:</label>
@@ -16,9 +18,10 @@
     </div>
 
     <br><br>
-  <input type="submit" value="Create a new assignment!">
+  <input type="submit" value="save assignment!" id = "save">
 
 </form>
+</div>
 
 <script>
   document.getElementById("taskMaker").onclick = function() {myFunction()};
@@ -41,7 +44,6 @@ function myFunction() {
   date.setAttribute('id','newDate')
   date.setAttribute('value', '');
   date.setAttribute('name', 'taskDue');
-
 
   var br = document.createElement("br");
 

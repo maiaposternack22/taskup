@@ -1,6 +1,7 @@
 <%- include('partials/header', {title:"Edit", allAss: allAss}) -%>
 
-<h2> Edit Assignment: <%=ass.name%> </h2>
+<h1> edit assignment: <%=ass.name%> </h1>
+<div id="allStuff" >
 
 <form action="/edit" method="POST">
   <label for= "name" > Name:</label>
@@ -36,9 +37,10 @@
 
 
     <br><br>
-  <input type="submit" value="update assignment">
+  <input type="submit" value="update assignment" id = "save">
 
 </form>
+</div>
 
 <script>
   document.getElementById("taskMaker").onclick = function() {myFunction()};
